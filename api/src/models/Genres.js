@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('genre', { // me va a crear una tabla en la db llamada genre
+  sequelize.define('genres', { // me va a crear una tabla en la db llamada genre
     id:{
         type: DataTypes.INTEGER,
         primaryKey: true,
