@@ -1,4 +1,4 @@
-const { axios } = require('axios');
+const axios = require('axios');
 const {Videogame, Genres} = require('../db.js')
 const { APIKEY } = process.env;
 
@@ -53,7 +53,7 @@ const infoTotal = async () => {
     const apiData = await infoApi();
     const dbData = await infoDB();
     //ahora uno mis dos constantes contenedoras de funciones
-    const infoCompleta = apiData.concat(dbData)
+    const infoCompleta = dbData.concat(apiData)
     return infoCompleta
 }
 //*************************************************************************** */

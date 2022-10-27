@@ -1,5 +1,6 @@
 const { Router } = require('express');
-const {infoTotal, videogame, infoApi, infoDB, nameApi, videogame} = require('./Controllers')
+const axios = require('axios');
+const {infoTotal, infoDB, nameApi, videogame} = require('./Controllers')
 const { Videogame, Genres } = require('../db.js');
 const { APIKEY } = process.env;
 // Importar todos los routers;
@@ -50,18 +51,16 @@ router.post('/videogames', async (req, res) => {
 
     if (!name || !description || !platforms) {
         return res.status(400).json({msg: "Missing information"})
-    };
-
-    if(typeof name !== "string" || typeof description !== "string" || typeof released !== "string" || typeof rating !== "integer" || typeof platforms !== "string"){
+    }
+    if(typeof name !== "string" || typeof description !== "string" || typeof released !== "string" || typeof rating !== "number" || typeof platforms !== "string"){
         return res.status(400).json({msg: "Some of the data was not entered correctly"})
-    };
-
+    }
     try {
         if (image === '' || !image) {
-            image = 'https://st2.depositphotos.com/2166845/5890/i/450/depositphotos_58906929-stock-photo-cairn-terrier-puppy.jpg'
+            image = 'file:///Users/agosfrixione/Desktop/Henry/PI-Videogames-main/24509700.jpg'
         } 
         const newVideogame = await Videogame.create({ name, description , released, rating, platforms, image })
-        let genr = await Genre.findAll({
+        let genr = await Genres.findAll({
             where: { name: genre }})
         
         await newVideogame.addGenre(genr);
