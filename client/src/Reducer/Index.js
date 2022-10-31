@@ -4,7 +4,7 @@ import {
     RESET_VIDEOGAMES,
     GET_DETAIL,
     RESET_DETAIL,
-    GET_BY_GENRES,
+    GET_GENRES,
     CREATE_VIDEOGAME,
     SET_PAGE,
     ORDER_BY_NAME,
@@ -12,7 +12,7 @@ import {
     FILTER_BY_SOURCE,
     FILTER_BY_GENRES,
     GET_PLATFORMS
-} from "../Actions"; 
+} from "../Actions/Index"; 
 
 let initialState = {
     allVideogames: [],
@@ -25,7 +25,7 @@ let initialState = {
 };
 
 export default function rootReducer(state= initialState, action){
-    const countries = state.countries;
+    const allVideogames = state.allVideogames;
 
     switch (action.type) {
         
@@ -67,10 +67,10 @@ export default function rootReducer(state= initialState, action){
             }
         };
 
-        case GET_BY_GENRES: {
+        case GET_GENRES: {
             return {
                 ...state,
-                allGenres: action.payload
+                allGenres: action.payload,
             }
         };
 
@@ -81,37 +81,35 @@ export default function rootReducer(state= initialState, action){
         };
 
         case ORDER_BY_NAME: {
-            const sortedVideogames = action.payload === 'A-Z' ? [...state.selectedVideogames].sort(function (a,b){
-                if(a.name.toLowerCase()>b.name.toLowerCase()) return 1;
-                if(a.name<b.name) return -1;
-                else return 0;
-            }) :
-            [...state.selectedVideogames].sort(function (a,b){
-                if(a.name.toLowerCase()>b.name.toLowerCase()) return -1;
-                if(a.name.toLowerCase()<b.name.toLowerCase()) return 1;
-                else return 0;
-            })
+            let sortedVideogames = [];
+            if (action.payload === 'A-Z') {
+                sortedVideogames = [...state.allVideogames].sort((a, b) => a.name.localeCompare(b.name))
+            }
+            if (action.payload === 'Z-A') {
+                sortedVideogames = [...state.allVideogames].sort((a, b) => b.name.localeCompare(a.name));
+            }
             return {
                 ...state,
-                selectedVideogames: sortedVideogames
+                allVideogames: sortedVideogames
             }
-        };
+        }
 
         case ORDER_BY_RATING: {
             let sortedVideogames = [];
             if (action.payload === 'ASC') {
-                sortedVideogames = [...state.selectedVideogames].sort((a, b) => a.rating - b.rating)
+                sortedVideogames = [...state.allVideogames].sort((a, b) => a.rating - b.rating)
             }
             if (action.payload === 'DESC') {
-                sortedVideogames = [...state.selectedVideogames].sort((a, b) => b.rating - a.rating);
+                sortedVideogames = [...state.allVideogames].sort((a, b) => b.rating - a.rating);
             }
             return {
                 ...state,
-                selectedVideogames: sortedVideogames
+                allVideogames: sortedVideogames
             }
         };
 
-        case FILTER_BY_SOURCE: {
+        case FILTER_BY_SOURCE: { // No funca todavia
+            let filteredVideogames = [];
             const filteredByGenre = state.genre === 'All' ?
                 allVideogames
                 : allVideogames.filter((c) => c.genres.name.map((ac) => ac.name).includes(state.genre));
@@ -126,12 +124,12 @@ export default function rootReducer(state= initialState, action){
 
             return {
                 ...state,
-                selectedVideogames: filteredVideogames,
+                allVideogames: filteredVideogames,
                 source: action.payload
             }
         };
 
-        case FILTER_BY_GENRES: {
+        case FILTER_BY_GENRES: { // No funca todavia 
             const filteredBySource = state.source === 'All' ?
                 allVideogames :
                 allVideogames.filter(v => v.source === state.source);
@@ -150,6 +148,12 @@ export default function rootReducer(state= initialState, action){
             return {
                 ...state,
                 currentPage: action.payload
+            };
+
+        case GET_PLATFORMS:
+            return {
+                ...state,
+                platforms: [...action.payload]
             };
 
         default: return state;

@@ -5,7 +5,7 @@ export const GET_BY_NAME = 'GET_BY_NAME';
 export const RESET_VIDEOGAMES = 'RESET_VIDEOGAMES';
 export const GET_DETAIL = 'GET_DETAIL';
 export const RESET_DETAIL = 'RESET_DETAIL';
-export const GET_BY_GENRES = 'GET_BY_GENRES';
+export const GET_GENRES = 'GET_GENRES';
 export const CREATE_VIDEOGAME = 'CREATE_VIDEOGAME';
 export const SET_PAGE = 'SET_PAGE';
 export const ORDER_BY_NAME = 'ORDER_BY_NAME';
@@ -70,12 +70,12 @@ export function resetDetail() {
     }
 };
 
-export function getByGenres() {
+export function getGenres() {
     return function (dispatch) {
         axios.get(`http://localhost:3001/genres`)
             .then(response => response.data)
             .then(response => {
-                dispatch({ type: GET_BY_GENRES, payload: response })
+                dispatch({ type: GET_GENRES, payload: response })
             })
             .catch(error => console.log(error))
     };
