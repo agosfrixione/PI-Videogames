@@ -11,13 +11,13 @@ export default function Cards({ allVideogames }) {
     } else {
         return (
             <div className="cards">
-                {allVideogames && allVideogames.map(videogame =>
+                {allVideogames && allVideogames.map(v =>
                     <Card
-                        key={videogame.id}
-                        id={videogame.id}
-                        image={videogame.image}
-                        name={videogame.name}
-                        genres={videogame.genres}
+                        key={v.id}
+                        id={v.id}
+                        image={v.image}
+                        name={v.name}
+                        genres={v.genres}
                     />)}
             </div>
         );

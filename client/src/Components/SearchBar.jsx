@@ -11,7 +11,10 @@ export default function SearchBar() {
     const params = useParams();
     const [search, setSearch] = useState('')
     const dispatch = useDispatch();
-    // const selectedCountries = useSelector(state => state.selectedCountries)
+
+    // useEffect(()=>{
+    //     dispatch(getByName(search))
+    // }, [dispatch, search]);
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -22,9 +25,8 @@ export default function SearchBar() {
 
     function onSubmit(e) {
         e.preventDefault();
-        const searchedName = getByName(e.target.value)
-        dispatch(searchedName)
-        dispatch(resetVideogames());
+        setSearch('') //para limpiar mi busqueda
+        dispatch(resetVideogames()); // al apretar search 
     }
 
     return (
@@ -33,14 +35,16 @@ export default function SearchBar() {
                     className="inputSearch"
                     type='text'
                     name='videogame'
-                    placeholder="Search Videogame"
+                    placeholder="Find your favorite Videogame"
                     value={search}
-                    onChange={(e) => handleChange(e)}
+                    onChange={e => handleChange(e)}
                     onKeyPress={e=> e.key === 'Enter' && onSubmit(e)}
                 />
-            <Link to="/home">
-                <button type='submit' onClick={e=> onSubmit(e)} className='btnSearch'>Search</button>
-            </Link>
+                <button
+                type='submit'
+                onClick={e=> onSubmit(e)}
+                className='btnSearch'
+                >Clear</button>
         </div>
 
     );

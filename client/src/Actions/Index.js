@@ -12,7 +12,6 @@ export const ORDER_BY_NAME = 'ORDER_BY_NAME';
 export const ORDER_BY_RATING = 'ORDER_BY_RATING';
 export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
-export const GET_PLATFORMS = 'GET_PLATFORMS';
 
 
 export const getVideogames = () => {
@@ -20,7 +19,7 @@ export const getVideogames = () => {
       try {
         let response = await axios.get("http://localhost:3001/videogames");
         dispatch({
-          type: "GET_VIDEOGAMES",
+          type: GET_VIDEOGAMES,
           payload: response.data,
         });
       } catch (err) {
@@ -34,7 +33,7 @@ export const getVideogames = () => {
         try {
         dispatch({ type: GET_BY_NAME, payload: name })
         } catch (error) {
-            console.log('Country could not be found')
+            console.log('Videogame could not be found')
         }
     };
 };
@@ -128,14 +127,4 @@ export function orderByRating(payload) {
       type: "FILTER_BY_GENRES",
       payload,
     };
-  };
-  
-  export const getPlatforms = () => {
-    return async (dispatch) => {
-        const url = await axios.get('http://localhost:3001/videogames/platforms')
-        return dispatch({
-            type: 'GET_PLATFORMS',
-            payload: url.data
-        })
-    }
   };

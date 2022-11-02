@@ -11,7 +11,6 @@ import {
     ORDER_BY_RATING,
     FILTER_BY_SOURCE,
     FILTER_BY_GENRES,
-    GET_PLATFORMS
 } from "../Actions/Index"; 
 
 let initialState = {
@@ -83,28 +82,28 @@ export default function rootReducer(state= initialState, action){
         case ORDER_BY_NAME: {
             let sortedVideogames = [];
             if (action.payload === 'A-Z') {
-                sortedVideogames = [...state.allVideogames].sort((a, b) => a.name.localeCompare(b.name))
+                sortedVideogames = [...state.selectedVideogames].sort((a, b) => a.name.localeCompare(b.name))
             }
             if (action.payload === 'Z-A') {
-                sortedVideogames = [...state.allVideogames].sort((a, b) => b.name.localeCompare(a.name));
+                sortedVideogames = [...state.selectedVideogames].sort((a, b) => b.name.localeCompare(a.name));
             }
             return {
                 ...state,
-                allVideogames: sortedVideogames
+                selectedVideogames: sortedVideogames
             }
         }
 
         case ORDER_BY_RATING: {
             let sortedVideogames = [];
             if (action.payload === 'ASC') {
-                sortedVideogames = [...state.allVideogames].sort((a, b) => a.rating - b.rating)
+                sortedVideogames = [...state.selectedVideogames].sort((a, b) => a.rating - b.rating)
             }
             if (action.payload === 'DESC') {
-                sortedVideogames = [...state.allVideogames].sort((a, b) => b.rating - a.rating);
+                sortedVideogames = [...state.selectedVideogames].sort((a, b) => b.rating - a.rating);
             }
             return {
                 ...state,
-                allVideogames: sortedVideogames
+                selectedVideogames: sortedVideogames
             }
         };
 
@@ -124,7 +123,7 @@ export default function rootReducer(state= initialState, action){
 
             return {
                 ...state,
-                allVideogames: filteredVideogames,
+                selectedVideogames: filteredVideogames,
                 source: action.payload
             }
         };
@@ -148,12 +147,6 @@ export default function rootReducer(state= initialState, action){
             return {
                 ...state,
                 currentPage: action.payload
-            };
-
-        case GET_PLATFORMS:
-            return {
-                ...state,
-                platforms: [...action.payload]
             };
 
         default: return state;
