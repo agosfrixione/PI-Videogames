@@ -72,12 +72,12 @@ router.post('/create', async (req, res) => {
 
 router.get('/genres', async (req, res) => {
     try {
-        const genresApi = await axios.get(`https://api.rawg.io/api/genres?key=${APIKEY}`)
-        const mapGenresApi = await genresApi.data.results.map(g => g.name)
+        const respuesta = await axios.get(`https://api.rawg.io/api/genres?key=${APIKEY}`)
+        const genresApi = await respuesta.data.results.map(g => g.name)
         //console.log('estos son los generos: ', genresApi)
 
-        mapGenresApi.forEach(g => Genres.findOrCreate({ //lo uso para guardar los generos que me traje de la API en la base de datos
-            where: {name: g} //
+        genresApi.map(e => Genres.findOrCreate({ //lo uso para guardar los generos que me traje de la API en la base de datos
+            where: {name: e} //
         }))
 
         const allGenres = await Genres.findAll() //me traigo todos los generos que guarde en mi db
