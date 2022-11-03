@@ -107,15 +107,17 @@ export default function rootReducer(state= initialState, action){
             }
         };
 
-        case FILTER_BY_SOURCE: { // No funca todavia
+        case FILTER_BY_SOURCE: {
+
             let filteredVideogames = [];
+            
             const filteredByGenre = state.genre === 'All' ?
                 allVideogames
-                : allVideogames.filter((c) => c.genres.name.map((ac) => ac.name).includes(state.genre));
+                : allVideogames.filter(v => v.genres?.includes(state.genre));
 
-            if (action.payload === 'db') {
+            if (action.payload === 'Db') {
                 filteredVideogames = filteredByGenre.filter(v => isNaN(v.id))
-            }else if (action.payload === 'api') {
+            }else if (action.payload === 'Api') {
                 filteredVideogames = filteredByGenre.filter(v => typeof(v.id) === 'number')
             }else {
                 filteredVideogames = filteredByGenre
@@ -128,14 +130,22 @@ export default function rootReducer(state= initialState, action){
             }
         };
 
-        case FILTER_BY_GENRES: { // No funca todavia 
-            const filteredBySource = state.source === 'All' ?
-                allVideogames :
-                allVideogames.filter(v => v.source === state.source);
+        case FILTER_BY_GENRES: { 
+
+            let filteredBySource = []; 
+
+            if (state.source === 'Db') {
+                filteredBySource = allVideogames.filter(v => isNaN(v.id))
+            }else if (state.source === 'Api') {
+                filteredBySource = allVideogames.filter(v => typeof(v.id) === 'number')
+            }else {
+                filteredBySource = allVideogames
+            }
 
             const filteredVideogames = action.payload === 'All' && filteredBySource.length ?
                 filteredBySource :
-                filteredBySource.filter((c) => c.genres.name.map((ac) => ac.name).includes(action.payload));
+                filteredBySource.filter(v => v.genres?.includes(action.payload));
+
             return {
                 ...state,
                 selectedVideogames: filteredVideogames,

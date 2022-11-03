@@ -1,6 +1,7 @@
 import React from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { filterBySource, filterByGenres, orderByName, orderByRating, setCurrentPage } from "../Actions/Index";
+import { filterBySource, filterByGenres, orderByName, orderByRating, setCurrentPage, getGenres } from "../Actions/Index";
 import SearchBar from "./SearchBar";
 import './Header.css';
 
@@ -9,10 +10,14 @@ export default function Header() {
     const dispatch = useDispatch();
     const allGenres = useSelector((state) => state.allGenres)
 
-    const genres = [];
-    allGenres.map(
-        a => !genres.includes(a.name) && genres.push(a.name)
-    );
+    // const genres = [];
+    // allGenres.map(
+    //     a => !genres.includes(a.name) && genres.push(a.name)
+    // );
+
+    useEffect(() => { //
+        dispatch(getGenres())
+    }, [dispatch])
 
     function handleOrderRating(event) {
         event.preventDefault()
@@ -60,8 +65,8 @@ export default function Header() {
                     <select onChange={event => handleFilterGenres(event)} className="select" defaultValue={'default'}>
                     <option value={'default'} hidden >Filter by genre</option>
                         <option value="All">All genres</option>
-                        {genres && genres.map((genre, idx) => (
-                            <option key={idx} value={genre}>{genre}</option>
+                        {allGenres && allGenres.map(g => (
+                            <option key={g.id} value={g.name}>{g.name}</option>
                         ))}
                     </select>
                 </div>
