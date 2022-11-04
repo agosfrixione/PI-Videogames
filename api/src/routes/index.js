@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
-const {infoTotal, infoDB, nameApi, videogame} = require('./Controllers')
+const {infoTotal, infoApi, infoDB, nameApi, videogame} = require('./Controllers')
 const { Videogame, Genres } = require('../db.js');
 const { APIKEY } = process.env;
 // Importar todos los routers;
@@ -87,6 +87,24 @@ router.get('/genres', async (req, res) => {
         next(e)
     }
 })
+
+router.get('/platforms', async (req, res, next) => {
+        
+    try {
+        const all = await infoApi();
+        const allPlatforms = [];
+        all.map(g => g.platforms.map(p => {
+            if(!allPlatforms.includes(p)) {
+                allPlatforms.push(p)
+            }
+        }))
+    
+        allPlatforms.length ? res.status(200).json(allPlatforms) : res.status(404).send('Error')
+
+        }catch(e) {
+            next(e)
+        }
+    })
 
 
 module.exports = router;
