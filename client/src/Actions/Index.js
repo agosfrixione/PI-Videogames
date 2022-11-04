@@ -12,6 +12,7 @@ export const ORDER_BY_NAME = 'ORDER_BY_NAME';
 export const ORDER_BY_RATING = 'ORDER_BY_RATING';
 export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
+export const GET_PLATFORMS = 'GET_PLATFORMS';
 
 
 export const getVideogames = () => {
@@ -127,4 +128,15 @@ export function orderByRating(payload) {
       type: "FILTER_BY_GENRES",
       payload,
     };
+  };
+
+  export const getPlatforms = () => {
+    return async (dispatch) => {
+        const url = await axios.get('http://localhost:3001/platforms')
+        //console.log(url)
+        return dispatch({
+            type: 'GET_PLATFORMS',
+            payload: url.data
+        })
+    }
   };

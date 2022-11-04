@@ -31,11 +31,11 @@ export default function Detail() {
                 <div className='info'>
                     <div>{videogame.name}</div>
                     <div>⭐ {videogame.rating}</div>
-                    <div>{videogame.genres?.map(g => (g.name ? g.name : g)).join('| ')}</div>
+                    <div>{videogame.genres?.map(g => (g.name ? g.name : g)).join(" | ")}</div>
                     <div>📅 {videogame.released}</div>
                     <hr />
-                    <div className='description'>📌{videogame.description?.replace('/(<([^>]+)>)/gi', '').replace('&#39', '')}</div>
-                    <div className='plataformas'>🎮: {videogame.platforms?.join(', ')}</div>
+                    <div className='description'>{<p dangerouslySetInnerHTML={{__html: videogame.description}}></p>}</div>
+                    <div className='plataformas'>🎮 Available for: {videogame.platforms?.join(', ')}.</div>
                 </div>
             </div>
             <Link to='/home'>

@@ -1,0 +1,85 @@
+.cardContainer {
+    --glow-color: rgb(207, 187, 209);
+  --glow-spread-color: rgba(191, 123, 255, 0.568);
+  --enhanced-glow-color: rgba(231, 206, 255, 0.651);
+  --btn-color: rgb(100, 61, 136);
+    height: 470px;
+    width: 470px;
+    text-align: center;
+    margin: 20px ;
+    padding: 10px;
+    display: grid;
+    place-items: center;
+    background: transparent;
+        color: var(--glow-color);
+        font-size: 12px;
+        font-weight: bold;
+    /* image-resolution: 100%;
+    background-size: 179%; */
+    border: .15em solid var(--glow-color);
+    border-radius: 30px;
+    outline: none;
+  box-shadow: 0 0 1em .25em var(--glow-color),
+         0 0 4em 1em var(--glow-spread-color),
+         inset 0 0 .75em .25em var(--glow-color);
+  text-shadow: 0 0 .5em var(--glow-color);
+  transition: all 0.3s;
+  }
+
+  .cardContainer:hover {
+    transform: scale(1.1);
+    border: 2px double rgb(221, 215, 212);
+    transition: all 2s, ease;
+  }
+
+  .imageDiv  {
+    width: 100%; /* esto era lo unico que tenia el imagedivnoborrar */
+   
+     
+    
+    position: relative;
+    
+ }
+
+ .textDiv {
+    padding: auto;
+ }
+  
+  .text {
+    text-decoration: none ;
+    color: white;
+    padding: 20px;
+    border: blink;
+  }
+  
+  /* .btnCountry {
+    grid-area: btn;
+  }
+  
+  .buttonCountry{
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      background-color: white;
+      height: 40px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+  }
+  
+  .buttonCountry:hover {
+      background-color: white;
+      color: var(--dark-color);
+      border: 2px solid var(--dark-color);
+  } */
+
+
+  .image {
+    width: 80%;
+    border: 2px  outset rgba(116, 5, 92, 0.8);
+    padding: 0px;
+    border-radius: 20px;
+    margin: 10px 0;
+    object-fit: cover;
+    height: 200px;
+    }

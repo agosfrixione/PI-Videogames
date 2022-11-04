@@ -31,7 +31,6 @@ export default function Home() {
     return (
     <div key={params.id} className="backgroundContainer">
       <NavBar />
-        <h2 className="title">Videogames App</h2>
         <Header />
         <div >
         <button

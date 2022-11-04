@@ -1,0 +1,12 @@
+.backgroundContainer{
+    display: flex;
+  flex-direction: column;
+  margin: auto;
+  background: url('../Images/Background.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: whitesmoke
+}
+

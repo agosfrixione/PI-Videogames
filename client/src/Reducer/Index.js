@@ -11,6 +11,7 @@ import {
     ORDER_BY_RATING,
     FILTER_BY_SOURCE,
     FILTER_BY_GENRES,
+    GET_PLATFORMS
 } from "../Actions/Index"; 
 
 let initialState = {
@@ -18,6 +19,7 @@ let initialState = {
     selectedVideogames: [],
     videogameDetail: {},
     allGenres: [],
+    platforms: [],
     source: 'All',
     genre: 'All',
     currentPage: 1
@@ -110,7 +112,7 @@ export default function rootReducer(state= initialState, action){
         case FILTER_BY_SOURCE: {
 
             let filteredVideogames = [];
-            
+
             const filteredByGenre = state.genre === 'All' ?
                 allVideogames
                 : allVideogames.filter(v => v.genres?.includes(state.genre));
@@ -157,6 +159,12 @@ export default function rootReducer(state= initialState, action){
             return {
                 ...state,
                 currentPage: action.payload
+            };
+
+        case GET_PLATFORMS:
+            return {
+                ...state,
+                platforms: [...action.payload]
             };
 
         default: return state;

@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
+import {Link, useHistory} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getVideogames, getGenres, createVideogame } from "../Actions/Index";
+import { getVideogames, getGenres, getPlatforms, createVideogame } from "../Actions/Index";
 import './Form.css';
 import { useParams } from "react-router-dom";
+import NavBar from '../Vistas/NavBar';
 
 export default function Form(){
     const params = useParams();
-    const allGenres = useSelector((state) => state.allGenres);
-    const allVideogames = useSelector((state) => state.allVideogames);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getGenres(), getVideogames())
-    }, [dispatch])
+    const allGenres = useSelector((state) => state.allGenres);
+    const platforms = useSelector((state) => state.platforms);
+    const allVideogames = useSelector((state) => state.allVideogames);
 
-    const [videogame, setVideogame] = useState({
+    useEffect(() => {
+        dispatch(getGenres());
+        dispatch(getPlatforms())
+      }, [dispatch])
+
+    const [input, setInput] = useState({
         name:"",
         image:"",
         description:"",
@@ -24,7 +29,7 @@ export default function Form(){
         platforms:[]
     });
 
-    const [formError, setFormError] = useState({name:false, weightMin:false, weightMax:false, heightMin:false, heightMax:false, life_span:false});
+    const [errors, setErrors] = useState({name:false, description:false, released:false, rating:false});
 
     const [isSubmit, setisSubmit] = useState(true);
 
@@ -39,55 +44,42 @@ export default function Form(){
         return false;
     }
 
-    function validWeight(str){
-        if(str.length < 1 || str.length > 10) return true;
+    function validDescriptionMin(str){
+        if(str.length < 1) return true;
         if(typeof str !== "string") return true;
         return false;
     }
 
-    function validHeight(str){
-        if(str.length < 1 || str.length > 5) return true;
+    function validDescriptionMax(str){
+        if(str.length > 140) return true;
         if(typeof str !== "string") return true;
         return false;
     }
 
 
-    function validLife(str){
-        if(str.length < 1 || typeof str !== "string") return true;
-        return false;
-    }
-    
-    function longLife(str){
-        if(str.length > 5) return true;
+    function validRating(str){
+        if(str.length < 1 || str.length > 5 || typeof str !== "number") return true;
         return false;
     }
 
-    function validation(data) {
+    function validation(input) {
         let errors = {}
 
-        if(exists(data.name) === true) errors.name = "You need to provide a breed name";
+        if(exists(input.name) === true) errors.name = "You need to provide a name";
 
-        if(exists(data.weightMin) === true) errors.weightMin = "You need to provide a minimum weight";
+        if(exists(input.description) === true) errors.description = "You need to provide a description";
 
-        if(exists(data.weightMax) === true) errors.weightMax = "You need to provide a maximum weight";
+        if(exists(input.released) === true) errors.released = "You need to provide a released date";
 
-        if(validName(data.name) === true) errors.name = "The name is not valid";
+        if(exists(input.rating) === true) errors.rating = "You need to provide a rating";
 
-        if(validWeight(data.weightMax) === true) errors.weightMax = "The weight is not valid";
+        if(validName(input.name) === true) errors.name = "The name is not valid";
 
-        if(validWeight(data.weightMin) === true) errors.weightMin = "The weight is not valid";
+        if(validDescriptionMin(input.description) === true) errors.description = "You need to provide a valid description";
 
-        if(validHeight(data.heightMin) === true) errors.heightMin = "The height is not valid";
+        if(validDescriptionMax(input.description) === true) errors.description = "The description must have up to 140 characters";
 
-        if(validHeight(data.heightMax) === true) errors.heightMax = "The height is not valid";
-
-        if(parseInt(data.highMin)>parseInt(data.highMax)) errors.heightMin = "The maximum height cannot be minor than the minimum height"
-        
-        if(parseInt(data.highMin)>parseInt(data.highMax)) errors.heightMax = "The maximum height cannot be minor than the minimum height"
-
-        if(validLife(data.life_span) === true) errors.life_span = "The life span is not valid";
-        
-        if(longLife(data.life_span) === true) errors.life_span = "We would love that they stay with us forever but sadly we must enjoy them while they're here";
+        if(validRating(input.rating) === true) errors.rating = "The rating must be a number between 1 and 5";
 
         if ((Object.keys(errors).length) === 0){
             setisSubmit(false)
@@ -96,164 +88,199 @@ export default function Form(){
         return errors;
     }
 
-    let handleChange = (e) =>{
-        setDog({
-            ...dog,
-            [e.target.name] : e.target.value //Los [] son para establecer una variable como propiedad.
-        });
-
-        setFormError(validation(dog));
+    function handleSubmit(e) {
+        e.preventDefault();
+    let noRepeat = allVideogames.filter(v => v.name === input.name)
+    if(noRepeat.length !== 0) {
+      alert('There is already a videogame with that name, please choose another one')
+    }else {
+        setErrors(validation(input))
+        dispatch(createVideogame(input))
+        setInput({
+          name: "",
+          image: "",
+          description: "",
+          released: "",
+          rating: "",
+          genres: [],
+          platforms: [],
+        }); // Reinicio el formulario
+        alert("The videogame was created succesfully");
     }
+}
 
-    let handleSubmit = async (e) =>{
-        e.preventDefault()
-        setFormError(validation(dog))
-        dispatch(postDog(dog))
-        console.log(dog);
-        setDog({
-            name:"",
-            image:"",
-            weightMin:"",
-            weightMax:"",
-            heightMin:"",
-            heightMax:"",
-            life_span:"",
-            temperament:[]
-        }); //Reinicio el formulario
-        alert("La raza ya fué creada")
-    }
-
-    let handleTemperament = (e) =>{
-        setDog({
-            ...dog,
-            temperament: [...new Set([...dog.temperament, e.target.value])] //con el set se borran elementos repetidos.
+      
+    
+      function handleChange(e) {
+        e.preventDefault();
+        setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setErrors(validation({
+          ...input,
+          [e.target.name]: [e.target.value]
         })
-
-        console.log("Handle temperaments:", dog.temperament )
-    }
+        )
+      }
+    
+      function handleGenres(e) {
+        if(!input.genres.includes(e.target.value)) {
+          setInput({
+            ...input,
+            genres: [...input.genres, e.target.value],
+          })
+        }
+      }
+    
+      function handlePlatforms(e) {
+        if(!input.platforms.includes(e.target.value)) {
+          setInput({
+            ...input,
+            platforms: [...input.platforms, e.target.value]
+          })
+        }
+      }
+    
+      function handleDeleteG(e) {
+        setInput({
+          ...input,
+          genres: input.genres.filter((gen) => gen !== e)
+        });
+      }
+    
+      function handleDeleteP(e) {
+        setInput({
+          ...input,
+          platforms: input.platforms.filter((plat) => plat !== e)
+        });
+      }
+    
 
     return(
-        <div key={params.id} className="formContainer">
-            <div className="textTitle">
-                <h2>Creat your own dog!</h2>
-            </div>
-            
-            <form className="form" onSubmit={(e) => handleSubmit(e)}>
-                <div className="container">
-                    <label>Breed</label>
-                    <input name={'name'} value={dog.name}
-                    onChange={(e) => handleChange(e)}></input>
-                    {
-                        formError.name ? (<h4 className="error"><small>{formError.name}</small></h4>) : false
-                    }
-                </div>
+        <div>
+        <NavBar/>
+      <form onSubmit={(e) => handleSubmit(e)} className='form'>
+        <div className='form'>
+          <h2 className='titulo'>Create your own videogame!</h2>
 
-                <div className="container">
-                    <label>Imagen</label>
-                    <input  name={'image'} value={dog.image}
-                    onChange={(e) => handleChange(e)}></input>
-                    {
-                        formError.image ? (<h4 className="error"><small>{formError.image}</small></h4>) : false
-                    }
-                </div>
+          <div className='grupo'>
+          <label className='label'>Name: </label>
+            <input
+              className='input'
+              type="text"
+              required
+              name="name"
+              value={input.name}
+              onChange={(e) => handleChange(e)}
+              /> <span className='barra'></span>
+            {errors.name && (
+              <p className='danger'>{errors.name}</p>
+            )}
+          </div>
 
-                <div className="container">
-                    <label>Minimum weight <small>(Please enter a single number)</small></label>
-                    <input  name={'weightMin'} value={dog.weightMin}
-                    onChange={(e) => handleChange(e)}></input>
-                    {
-                        formError.weightMin ? (<h4 className="error"><small>{formError.weightMin}</small></h4>) : false
-                    }
-                </div>
 
-                <div className="container">
-                    <label>Maximum weight <small>(Please enter a single number)</small></label>
-                    <input name={'weightMax'} value={dog.weightMax}
-                    onChange={(e) => handleChange(e)}></input>
-                    <div className="errorContainer">
-                    {
-                        formError.weightMax ? (<h4 className="error"><small>{formError.weightMax}</small></h4>) : false
-                    }
-                    </div>
-                </div>
+          <div className='grupo'>
+          <label className='label'>Image URL: </label>
+            <input
+            className='input'
+              type="text"
+              name="image"
+              value={input.image}
+              onChange={(e) => handleChange(e)}
+              /> <span className='barra'></span>
+            {errors.image && (
+              <p className='danger'>{errors.image}</p>
+            )}
+          </div>
 
-                <div className="container">
-                    <label>Minimum height <small>(Please enter a single number)</small></label>
-                    <input name={'heightMin'} value={dog.heightMin}
-                    onChange={(e) => handleChange(e)}></input>
-                    {
-                        formError.heightMin ? (<h4 className="error"><small>{formError.heightMin}</small></h4>) : false
-                    }
-                </div>
 
-                <div className="container">
-                    <label>Maximum height <small>(Please enter a single number)</small></label>
-                    <input name={'heightMax'} value={dog.heightMax}
-                    onChange={(e) => handleChange(e)}></input>
-                    {
-                        formError.heightMax ? (<h4 className="error"><small>{formError.heightMax}</small></h4>) : false
-                    }
-                </div>
+          <div className='grupo'>
+          <label className='label'>Released date: </label>
+            <input
+            className='input'
+              required
+              type='date'
+              name="released"
+              value={input.released}
+              placeholder='yyyy-mm-dd'
+              onChange={(e) => handleChange(e)}
+              /> <span className='barra'></span>
+            {errors.released && (
+              <p className='danger'>{errors.released}</p>
+            )}
 
-                <div className="container">
-                    <label>Life span</label>
-                    <input name={'life_span'} value={dog.life_span}
-                    onChange={(e) => handleChange(e)}></input>
-                    {
-                        formError.life_span ? (<h4 className="error"><small>{formError.life_span}</small></h4>) : false
-                    }
-                </div>
+          </div>
 
-                <div className="container">
-                    <label>Temperament 1</label>
-                    <select name={'temperaments'}
-                      onChange={(e) => handleTemperament(e)}>
-                        <option value="selected" hidden >Choose a temperament</option>
-                       {
-                            temperamentsState?.map(t=>{
-                               return (
-                                   <option key={t.id} value={t.name}>{t.name}</option>
-                               );
-                            })
-                        }
-                     </select>
-                </div>
+          <div className='grupo'>
+          <label className='label'>Rating: </label>
+            <input
+            className='input'
+              required
+              type="text"
+              name="rating"
+              value={input.rating}
+              onChange={(e) => handleChange(e)}
+              /> <span className='barra'></span>
+            {errors.rating && (
+              <p className='danger'>{errors.rating}</p>
+            )}
+          </div>
 
-                <div className="container">
-                    <label>Temperament 2</label>
-                    <select name={'temperaments'}
-                      onChange={(e) => handleTemperament(e)}>
-                      <option value="selected" hidden >Choose a temperament</option>
-                       {
-                            temperamentsState?.map(t=>{
-                               return (
-                                   <option key={t.id} value={t.name}>{t.name}</option>
-                               );
-                            })
-                        }
-                     </select>
-                </div>
 
-                <div className="container">
-                    <label>Temperament 3</label>
-                    <select name={'temperaments'}
-                      onChange={(e) => handleTemperament(e)}>
-                      <option value="selected" hidden >Choose a temperament</option>
-                       {
-                            temperamentsState?.map(t=>{
-                               return (
-                                   <option key={t.id} value={t.name}>{t.name}</option>
-                               );
-                            })
-                        }
-                     </select>
-                </div>
+          <div className='grupo'>
+          <label className='label'>Genres: </label>
+            <select className='create' id="genres" defaultValue="" onChange={(e) => handleGenres(e)}>
+              <option className='option_create' value='' disabled hidden>Select genres...</option>
+              {allGenres.map((g) => {
+                return (
+                  <option className='option_create' key={g.id} value={g.name}>{g.name}</option>
+                  );
+                })}
+            </select> <span className='barra'></span>
+            {input.genres.map((g) => (
+              <div className='box_opcion'>
+                <div className='opcion_title'>{g}</div>
+                <button className='btn_remove' onClick={() => handleDeleteG(g)} key={g} value={g}><span className='x'>X</span></button>
+              </div>
+        ))}
+          </div>
 
-                <div>
-                    <button className="btn" type="submit" value="submit" id="btn" disabled={isSubmit}> Create dog </button>
-                </div>
 
-            </form>
-        </div>
-    )
-}
+          <div className='grupo'>
+          <label className='label'>Platforms:  </label>
+              <select className='select_create' id="platforms" defaultValue="" onChange={(e) => handlePlatforms(e)}>
+                  <option className='option_create' value="" disabled hidden>Select platforms...</option>
+                  {platforms?.map(p => {
+                    return (
+                      <option className='option_create' value={p} key={p}>{p}</option>
+                      );
+                    })}
+              </select> <span className='barra'></span>
+              {input.platforms.map((p) => (
+                <div className='box_opcion'>
+                  <div className='opcion_title'>{p}</div>
+                  <button className='btn_remove' onClick={() => handleDeleteP(p)} key={p} value={p}><span className='x'>X</span></button>
+                </div>
+              ))}
+          </div>
+
+          <div className='grupo'>
+          <label className='description'>Description: </label>
+            <textarea
+              required
+              type="text"
+              name="description"
+              value={input.description}
+              onChange={(e) => handleChange(e)}
+              > </textarea>
+            {errors.description && (
+              <p className='danger'>{errors.description}</p>
+            )}
+          </div>
+      </div>
+      <div>
+          <button type="submit" className='btn_submit'>CREATE</button>
+      </div>
+      </form>
+
+    </div>
+  );
+};
