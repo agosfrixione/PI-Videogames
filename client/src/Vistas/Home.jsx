@@ -1,4 +1,3 @@
-import "./Home.css";
 import React, { useEffect } from "react";
 import { getVideogames, setCurrentPage } from "../Actions/Index";
 import Cards from '../Components/Cards';
@@ -7,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import NavBar from "../Vistas/NavBar"
 import Header from "../Components/Header";
+import s from "./Home.module.css";
 
 export default function Home() {
   
@@ -29,30 +29,18 @@ export default function Home() {
   };
 
     return (
-    <div key={params.id} className="backgroundContainer">
+    <div key={params.id} className={s.backgroundContainer}>
       <NavBar />
         <Header />
-        <div >
-        <button
-                disabled={currentPage <= 1 ? true : false}
-                onClick={() => paginate(currentPage - 1)}
-              >
-                ⬅
-              </button>
+        <div>
             <Paginate
                    gamesPerPage={gamesPerPage}
                    allGames={selectedVideogames.length}
                    currentPage= {currentPage}
                    paginate={paginate}
             />
-            <button
-                disabled={currentPage >= 7 ? true : false}
-                onClick={() => paginate(currentPage + 1)}
-              >
-                ⮕
-              </button>
         </div>
-        <div className="homeCards">
+        <div className={s.cards}>
             <Cards allVideogames={currentGames} />
             </div>
     </div>

@@ -1,5 +1,5 @@
 import {Link, useParams} from 'react-router-dom';
-import './LandingPage.css';
+import s from './LandingPage.module.css';
 // import image from "../Images/Background.jpeg";
  import { useDispatch } from 'react-redux';
 import { getVideogames } from '../Actions/Index';
@@ -14,13 +14,12 @@ export default function LandingPage (){
   }, [dispatch]);
 
     return(
-        <div key={params.id} className="containerLanding">
+        <div key={params.id} className={s.landingContainer}>
           <NavBar/>
-      <h1>Henry Videogames</h1>
+      <h1 className= {s.text}>Henry Videogames</h1>
       <Link to="/home">
-      <h2 contenteditable spellcheck="false">Start</h2>
+        <button className={s.button}>Start</button>
       </Link>
-      {/* <img className="img1" src={image} alt="Videogames App" /> */}
     </div>
     )
 }

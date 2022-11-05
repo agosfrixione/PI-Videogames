@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import './Paginate.css'
+import s from './Paginate.module.css'
 
 export default function Paginate ({gamesPerPage, allGames, paginate, currentPage}) {
     const params = useParams();
@@ -12,15 +12,29 @@ export default function Paginate ({gamesPerPage, allGames, paginate, currentPage
 
     //Del map salen los números que después se renderizan en el home para poder navegar a través de las páginas
     return (
-        <nav key={params.id} className="paginateContainer">
-            <ul className="paginate">
+        <nav key={params.id} className={s.paginateContainer}>
+            <ul className={s.nums}>
+            <button
+                className= {s.button}
+                disabled={currentPage <= 1 ? true : false}
+                onClick={() => paginate(currentPage - 1)}
+              >
+                ⬅
+              </button>
                 {
                     pageNum && pageNum.map(n => (
                         <li key={n}>
-                            <button disabled= {currentPage === n? true : false} onClick={()=> paginate(n)}>{n}</button>
+                            <button className={s.button} disabled= {currentPage === n? true : false} onClick={()=> paginate(n)}>{n}</button>
                         </li>
                     ))
                 }
+                <button
+                className= {s.button}
+                disabled={currentPage >= 7 ? true : false}
+                onClick={() => paginate(currentPage + 1)}
+              >
+                ⮕
+              </button>
             </ul>
         </nav>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './Card.jsx';
-import './Cards.css';
+import s from './Cards.module.css';
 
 export default function Cards({ allVideogames }) {
     if (!allVideogames.length) {
@@ -10,7 +10,7 @@ export default function Cards({ allVideogames }) {
         )
     } else {
         return (
-            <div className="cards">
+            <div className={s.cards}>
                 {allVideogames && allVideogames.map(v =>
                     <Card
                         key={v.id}
