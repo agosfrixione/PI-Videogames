@@ -33,12 +33,8 @@
   }
 
   .imageDiv  {
-    width: 100%; /* esto era lo unico que tenia el imagedivnoborrar */
-   
-     
-    
+    width: 100%;
     position: relative;
-    
  }
 
  .textDiv {
@@ -47,8 +43,9 @@
   
   .text {
     text-decoration: none ;
+    text-align: center;
     color: white;
-    padding: 20px;
+    padding: 10px;
     border: blink;
   }
 

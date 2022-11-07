@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getDetail, resetDetail } from "../Actions/Index";
 import { Link } from "react-router-dom";
 import s from "./Detail.module.css";
+import NavBar from '../Vistas/NavBar';
 
 export default function Detail() {
 
@@ -23,19 +24,35 @@ export default function Detail() {
 
     return (
         <div className={s.detailContainer} >
+            <NavBar/>
             <div className={s.containerMain}>
-                <h2>{videogame.name}</h2>
-                <img className={s.containerImg}
-                    src={videogame.image}
-                    alt="image not found" />
-                <div className={s.info}>
-                    <div>{videogame.name}</div>
-                    <div>⭐ {videogame.rating}</div>
-                    <div>{videogame.genres?.map(g => (g.name ? g.name : g)).join(" | ")}</div>
-                    <div>📅 {videogame.released}</div>
-                    <hr />
-                    <div className={s.containerTextDescrip}>{<p dangerouslySetInnerHTML={{__html: videogame.description}}></p>}</div>
-                    <div className={s.containerPlat}>🎮 Available for: {videogame.platforms?.join(', ')}.</div>
+            <div
+          className={s.containerImg}
+          key={videogame.id}
+          style={{
+            backgroundImage: `url(${
+              videogame.image ? videogame.image : videogame.background_image
+            })`,
+          }}
+        >
+                </div>
+                <div className={s.containerTextDescrip}>
+                    <div className={s.nameDiv}>
+                        <h1>{videogame.name}</h1>
+                        </div>
+                        <div className={s.containerGenPlat}>
+                        <p>Genres: {videogame.genres?.map(g => (g.name ? g.name : g)).join(", ")}.</p>
+                        <p>Available for: {videogame.platforms?.join(', ')}.</p>
+                        </div>
+                    <div className={s.ratingAndReleased}>
+                        <p>⭐ {videogame.rating}</p>
+                        <p>Realeased date: {videogame.released}</p>
+                        </div>
+                        <div className={s.descriptionText}>
+                            <p>
+                                {videogame.description?.replace(/(<([^#$>]+)>)/gi, " ").replace(" ", " ")}
+                                </p>
+          </div>
                 </div>
             </div>
             <Link to='/home' className={s.containerButton}>

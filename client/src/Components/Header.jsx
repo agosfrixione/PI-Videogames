@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { filterBySource, filterByGenres, orderByName, orderByRating, setCurrentPage, getGenres } from "../Actions/Index";
 import SearchBar from "./SearchBar";
-import './Header.css';
+import s from './Header.module.css';
 
 export default function Header() {
 
@@ -43,45 +43,41 @@ export default function Header() {
     }
 
     return (
-        <div className="headerDiv">
-            <div className="selectGap">
+        <div>
+            <SearchBar />
+            <div className={s.header}>
 
                 {/* ORDEN POR RATING */}
-                <select onChange={event => handleOrderRating(event)} className="select" defaultValue={'default'}>
+                <select onChange={event => handleOrderRating(event)} className={s.options} defaultValue={'default'}>
                     <option value={'default'} hidden>Sort by rating</option>
                     <option value="ASC">From higher to lower</option>
                     <option value="DESC">From lower to higher</option>
                 </select>
 
                 {/* ORDEN ALFABETICO POR NOMBRE  */}
-                <select onChange={event => handleOrderName(event)} className="select" defaultValue={'default'}>
+                <select onChange={event => handleOrderName(event)} className={s.options} defaultValue={'default'}>
                     <option value={'default'} hidden>Sort by name</option>
                     <option value="A-Z">A-Z</option>
                     <option value="Z-A">Z-A</option>
                 </select>
 
                 {/* FILTRO POR GENERO */}
-                <div>
-                    <select onChange={event => handleFilterGenres(event)} className="select" defaultValue={'default'}>
+                    <select onChange={event => handleFilterGenres(event)} className={s.options} defaultValue={'default'}>
                     <option value={'default'} hidden >Filter by genre</option>
                         <option value="All">All genres</option>
                         {allGenres && allGenres.map(g => (
                             <option key={g.id} value={g.name}>{g.name}</option>
                         ))}
                     </select>
-                </div>
 
                 {/* FILTRO POR ORIGEN */}
-                <div>
-                    <select onChange={event => handleFilterSource(event)} className="select" defaultValue={'default'}>
+                    <select onChange={event => handleFilterSource(event)} className={s.options} defaultValue={'default'}>
                     <option value={'default'} hidden >Filter by source</option>
                         <option value="All">All videogames</option>
                         <option value="Api">Api videogames</option>
                         <option value="Db">Database videogames</option>
                     </select>
-                </div>
             </div>
-            <SearchBar />
         </div>
     );
 };

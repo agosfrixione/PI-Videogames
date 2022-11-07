@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import './SearchBar.css';
+import s from './SearchBar.module.css';
 import { useParams } from "react-router-dom";
 // import { useSelector } from 'react-redux';
 import { getByName, setCurrentPage, resetVideogames } from '../Actions/Index'
@@ -30,12 +30,12 @@ export default function SearchBar() {
     }
 
     return (
-        <div key={params.id} className="searchBarContainer">
+        <div key={params.id} className={s.container}>
                 <input
-                    className="inputSearch"
+                    className={s.inputs}
                     type='text'
                     name='videogame'
-                    placeholder="Find your favorite Videogame"
+                    placeholder="Search Videogame"
                     value={search}
                     onChange={e => handleChange(e)}
                     onKeyPress={e=> e.key === 'Enter' && onSubmit(e)}
@@ -43,7 +43,7 @@ export default function SearchBar() {
                 <button
                 type='submit'
                 onClick={e=> onSubmit(e)}
-                className='btnSearch'
+                className={s.buttons}
                 >Clear</button>
         </div>
 

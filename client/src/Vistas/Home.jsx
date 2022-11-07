@@ -31,7 +31,9 @@ export default function Home() {
     return (
     <div key={params.id} className={s.backgroundContainer}>
       <NavBar />
-        <Header />
+      <div className={s.filterBar}>
+      <Header className={s.detailButton} />
+      </div>
         <div>
             <Paginate
                    gamesPerPage={gamesPerPage}

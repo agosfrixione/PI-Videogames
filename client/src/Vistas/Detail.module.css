@@ -1,20 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&display=swap');
+
 .detailContainer{
-    min-height: 100vh;
-    width: 100%;
-   
-    display: flex;
-    flex-direction: column;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
-    
-}
+  flex-direction: column;
+  margin: auto;
+  background: url('../Images/Background.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: whitesmoke
+  }
 
 .containerMain{
-    margin: 0px auto 100px auto;
+    margin: 50px auto 100px auto;
     width: 80%;
     height: 60vh;
     display: flex;
-    background: linear-gradient(rgba(209, 9, 42, 0.822), rgba(146, 6, 24, 0.945));
+    background: transparent;
     border: 2px solid rgb(70, 20, 187);
    
   }
@@ -29,17 +31,18 @@
 }
 
 .containerTextDescrip{
-    width: 50%;
-   
-    background: url('../Images/Background.jpeg');
-    background-size: cover;
-    border: 2px solid rgb(70, 20, 187);
-    padding: 20px 20px 15px 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  width: 50%;
+  background: transparent;
+  background-size: cover;
+  border: 2px solid rgb(70, 20, 187);
+  padding: 20px 20px 15px 20px;
     
-    overflow: scroll;
+  overflow: scroll;
     
     
-    color: #fffeff;
+  color: #fffeff;
   text-shadow:
     1px 1px 2px #a9a0aa,
     1px 1px 2px #a89fa7,
@@ -71,43 +74,83 @@
   outline: 1px outset rgb(66, 1, 82);
 }
 
-.info {
-    padding: 20px 0px 20px 0px;
-    color: #31023a80;
-  text-shadow:
-    1px 2px 0px #a9a0aa,
-    1px 2px 0px #a89fa7,
-    1px 2px 51px #d6d0d0,
-    2px 3px 1px #c7bfbf,
-    2px 3px 2px #040203,
-    2px 4px 52px #c599c5,
-    3px 5px 2px #c599c5,
-    3px 5px 3px #c599c5,
-    3px 5px 3px #c599c5,
-    5px 6px 2px #c599c5,
-    6px 6px 2px #050505,
-    7px 6px 2px #000000,
-    7px 7px 1px #696363,
-    7px 7px 1px #080808,
-    7px 7px 0px #201f20,
-    7px 8px 0px #757172;
+.nameDiv {
+  padding: 0px 0px 20px 0px;
+  color: #31023a80;
+--glow-color: rgb(217, 176, 255);
+--glow-spread-color: rgba(191, 123, 255, 0.781);
+--enhanced-glow-color: rgb(231, 206, 255);
+--btn-color: rgb(100, 61, 136);
+color: var(--glow-color);
+text-shadow:
+  1px 2px 0px #a9a0aa,
+  1px 2px 0px #a89fa7,
+  1px 2px 51px #d6d0d0,
+  2px 3px 1px #c7bfbf,
+  2px 3px 2px #040203,
+  2px 4px 52px #c599c5,
+  3px 5px 2px #c599c5,
+  3px 5px 3px #c599c5,
+  3px 5px 3px #c599c5,
+  5px 6px 2px #c599c5,
+  6px 6px 2px #050505,
+  7px 6px 2px #000000,
+  7px 7px 1px #696363,
+  7px 7px 1px #080808,
+  7px 7px 0px #201f20,
+  7px 8px 0px #757172;
 
 }
 
-.containerPlat {
+.containerGenPlat {
     border: 2px solid rgb(70, 20, 187);
-  
-      padding: 15px 5px 0px 10px ;
-      text-align: start;
-      line-height : 45px;
-      background: linear-gradient(rgba(1, 1, 1, 0.8), rgba(1, 1, 1, 0.8));
+    padding: 5px 5px 5px 10px;
+    text-align: start;
+    line-height : 25px;
+    background: linear-gradient(rgba(1, 1, 1, 0.8), rgba(1, 1, 1, 0.8));
   }
+
+  .ratingAndReleased{
+    padding: 5px 15px 5px 15px;
+    margin-top: 1rem;    
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid rgb(70, 20, 187);
+   text-align: start;
+   line-height : 25px;
+   background: linear-gradient(rgba(1, 1, 1, 0.8), rgba(1, 1, 1, 0.8));
+}
+
+.descriptionText{
+  padding: 5px 5px 5px 10px;
+  margin-top: 1rem;
+  text-justify: distribute;
+  border: 2px solid rgb(70, 20, 187);
+  text-align: start;
+  line-height : 25px;
+  background: linear-gradient(rgba(1, 1, 1, 0.8), rgba(1, 1, 1, 0.8));
+  width: auto;
+  height: 340px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.descriptionText::-webkit-scrollbar {
+  width: 0.5em;
+}
+ 
+.descriptionText::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+.descriptionText::-webkit-scrollbar-thumb {
+  background-color: rgba(44, 2, 56, 0.774);
+  outline: 1px outset rgb(66, 1, 82);
+}
 
   .containerButton{
     display: flex;
     justify-content: center;
-    margin: 80px;
-    padding: 0px 500px 0px 0px;
+    margin: -40px;
+    padding: 0px 40px 0px 0px;
     
 }
 
@@ -132,6 +175,7 @@
     transition: all 0.3s;
     
     text-decoration: none;
+    cursor: pointer;
    }
    
    .detailButton::after {
