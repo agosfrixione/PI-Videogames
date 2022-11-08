@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&display=swap');
+
 .backgroundContainer{
   margin: 0;
   padding: 0;
@@ -108,4 +110,30 @@
            0 0 2.5em 2em var(--glow-spread-color),
            inset 0 0 .5em .25em var(--glow-color);
    }
-  
+
+   .notFound {
+  font-family: 'Press Start 2P', cursive;
+  text-decoration: none;
+  text-align: center;
+  color: #fffeff;
+  text-shadow:
+    1px 1px 2px #a9a0aa,
+    1px 1px 2px #a89fa7,
+    2px 2px 3px #d6d0d0,
+    2px 2px 3px #c7bfbf,
+    3px 3px 2px #040203,
+    3px 3px 2px #c599c5,
+    4px 4px 2px #c599c5,
+    4px 4px 3px #c599c5,
+    4px 4px 3px #c599c5,
+    4px 5px 2px #c599c5,
+    5px 5px 2px #050505,
+    5px 5px 2px #000000,
+    5px 5px 1px #696363,
+    5px 5px 1px #080808,
+    5px 5px 0px #201f20,
+    5px 5px 0px #757172;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 155px;
+   }

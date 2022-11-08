@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import s from './Paginate.module.css'
 
-export default function Paginate ({gamesPerPage, allGames, paginate, currentPage}) {
+export default function Paginate ({gamesPerPage, allGames, paginate, currentPage, currentGames}) {
     const params = useParams();
     const pageNum = [];
 
@@ -30,7 +30,7 @@ export default function Paginate ({gamesPerPage, allGames, paginate, currentPage
                 }
                 <button
                 className= {s.button}
-                disabled={currentPage >= 7 ? true : false}
+                disabled={currentGames.length < gamesPerPage ? true : false}
                 onClick={() => paginate(currentPage + 1)}
               >
                 ⮕

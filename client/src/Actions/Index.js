@@ -39,7 +39,7 @@ export const getVideogames = () => {
     };
 };
 
-export function resetVideogames() {
+export function resetVideogames() { // Para limpiar la busqueda
     return function (dispatch) {
         try {
             dispatch({ type: RESET_VIDEOGAMES })
@@ -82,19 +82,14 @@ export function getGenres() {
 };
 
 export function createVideogame(data) {
-    return function (dispatch) {
-        return axios.post(`http://localhost:3001/videogame`, data)
-            .then(response => response.data)
-            .then(response => {
-                dispatch({ type: CREATE_VIDEOGAME, payload: response });
-                alert('The videogame was created successfully')
-                return true
-            })
-            .catch(error => {
+    return async (dispatch) => {
+        // console.log(data)
+        try {
+            await axios.post(`http://localhost:3001/videogames`, data)
+            await dispatch({ type: CREATE_VIDEOGAME, payload: data });
+        }catch(error) {
                 console.log(error);
-                alert('Cannot create videogame. Error: ' + error.response.data)
-                return false
-            })
+            }
     }
 };
 

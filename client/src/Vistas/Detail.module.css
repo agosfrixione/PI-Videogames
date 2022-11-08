@@ -8,7 +8,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
-  color: whitesmoke
+  color: whitesmoke;
   }
 
 .containerMain{
@@ -22,12 +22,11 @@
   }
 
   .containerImg{
-    height: auto;
+   height: auto;
    width: 50%;
    background-size: cover;
    background-position: center;
    border: 2px solid rgb(70, 20, 187);
-   background-color: red;
 }
 
 .containerTextDescrip{

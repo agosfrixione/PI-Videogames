@@ -28,6 +28,7 @@
   }
   .menu li {
     padding: 6px 14px;
+    list-style: none;
   }
 
 .app{

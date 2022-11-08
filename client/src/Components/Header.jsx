@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { filterBySource, filterByGenres, orderByName, orderByRating, setCurrentPage, getGenres } from "../Actions/Index";
 import SearchBar from "./SearchBar";
 import s from './Header.module.css';
+import { useParams } from 'react-router-dom';
 
 export default function Header() {
 
+    const params = useParams();
     const dispatch = useDispatch();
     const allGenres = useSelector((state) => state.allGenres)
 
@@ -43,7 +45,7 @@ export default function Header() {
     }
 
     return (
-        <div>
+        <div key={params.id}>
             <SearchBar />
             <div className={s.header}>
 

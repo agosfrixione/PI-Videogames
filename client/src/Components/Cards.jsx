@@ -1,19 +1,12 @@
 import React from 'react';
 import Card from './Card.jsx';
 import s from './Cards.module.css';
-import Loading from "./Loading";
+import { useParams } from 'react-router-dom';
 
 export default function Cards({ allVideogames }) {
-    if (!allVideogames.length) {
+    const params = useParams();
         return (
-
-            <div>
-                <Loading />
-                </div>
-        )
-    } else {
-        return (
-            <div className={s.cards}>
+            <div className={s.cards} key={params.id}>
                 {allVideogames.length && allVideogames.map(v =>
                     <Card
                         key={v.id}
@@ -26,4 +19,3 @@ export default function Cards({ allVideogames }) {
             </div>
         );
     }
-}

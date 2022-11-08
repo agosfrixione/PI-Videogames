@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import s from './SearchBar.module.css';
 import { useParams } from "react-router-dom";
@@ -12,9 +11,6 @@ export default function SearchBar() {
     const [search, setSearch] = useState('')
     const dispatch = useDispatch();
 
-    // useEffect(()=>{
-    //     dispatch(getByName(search))
-    // }, [dispatch, search]);
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -26,7 +22,7 @@ export default function SearchBar() {
     function onSubmit(e) {
         e.preventDefault();
         setSearch('') //para limpiar mi busqueda
-        dispatch(resetVideogames()); // al apretar search 
+        dispatch(resetVideogames()); // al apretar search
     }
 
     return (

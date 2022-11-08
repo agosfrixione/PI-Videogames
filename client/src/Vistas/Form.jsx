@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {Link, useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getVideogames, getGenres, getPlatforms, createVideogame } from "../Actions/Index";
-import './Form.css';
+import { getGenres, getPlatforms, createVideogame } from "../Actions/Index";
+import s from './Form.module.css';
 import { useParams } from "react-router-dom";
 import NavBar from '../Vistas/NavBar';
 
 export default function Form(){
     const params = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const allGenres = useSelector((state) => state.allGenres);
     const platforms = useSelector((state) => state.platforms);
@@ -29,57 +30,45 @@ export default function Form(){
         platforms:[]
     });
 
-    const [errors, setErrors] = useState({name:false, description:false, released:false, rating:false});
+    const [errors, setErrors] = useState({});
 
     const [isSubmit, setisSubmit] = useState(true);
 
-    function exists(str){
-        if (!str) return true;
-        return false;
-    }
 
-    function validName(str){
-        if(str.length < 1 || str.length > 30) return true;
-        if(typeof str !== "string") return true;
-        return false;
-    }
-
-    function validDescriptionMin(str){
-        if(str.length < 1) return true;
-        if(typeof str !== "string") return true;
-        return false;
-    }
-
-    function validDescriptionMax(str){
-        if(str.length > 140) return true;
-        if(typeof str !== "string") return true;
-        return false;
-    }
-
-
-    function validRating(str){
-        if(str.length < 1 || str.length > 5 || typeof str !== "number") return true;
-        return false;
-    }
 
     function validation(input) {
         let errors = {}
 
-        if(exists(input.name) === true) errors.name = "You need to provide a name";
+        if(!input.name) {
+          errors.name = "You need to provide a name";
+        } else if (typeof input.name !== "string") {
+          errors.name = "The name is not valid";
+        } else if (input.name.length > 50) {
+          errors.name = "The name is too long";
+        }
 
-        if(exists(input.description) === true) errors.description = "You need to provide a description";
+        if(!input.image.length || !/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(input.image)
+        ){
+          errors.image= "invalid URL, must be an image(png, jpg, gif)";
+        };
 
-        if(exists(input.released) === true) errors.released = "You need to provide a released date";
+        if(!input.description) {
+          errors.description = "You need to provide a description";
+        } else if (input.description.length > 800) {
+          errors.description = "The description is too long (Max = 800 characters)";
+        }
 
-        if(exists(input.rating) === true) errors.rating = "You need to provide a rating";
+        if(!input.released) {
+          errors.released = "You need to provide a released date";
+        } else if (input.released.length > 10 || !/^[0-9-]+$/.test(input.released)) {
+          errors.released = "You need to provide a valid date (yyyy-mm-dd)"
+        }
 
-        if(validName(input.name) === true) errors.name = "The name is not valid";
-
-        if(validDescriptionMin(input.description) === true) errors.description = "You need to provide a valid description";
-
-        if(validDescriptionMax(input.description) === true) errors.description = "The description must have up to 140 characters";
-
-        if(validRating(input.rating) === true) errors.rating = "The rating must be a number between 1 and 5";
+        if(!input.rating){
+          errors.rating = "You need to provide a rating";
+        } else if ( isNaN(input.rating) || input.rating < 1.0 || input.rating > 5) {
+          errors.rating = "The rating must be a number between 1 and 5"
+        }
 
         if ((Object.keys(errors).length) === 0){
             setisSubmit(false)
@@ -90,12 +79,17 @@ export default function Form(){
 
     function handleSubmit(e) {
         e.preventDefault();
-    let noRepeat = allVideogames.filter(v => v.name === input.name)
-    if(noRepeat.length !== 0) {
+    let noRepeat = allVideogames.filter(v => v.name === input.name);
+    if(noRepeat.length) {
       alert('There is already a videogame with that name, please choose another one')
+      errors.name = "There is already a videogame with that name";
     }else {
-        setErrors(validation(input))
+        if(!input.name || !input.genres.length || !input.platforms.length ){
+          alert("Missing info")
+      }else {
         dispatch(createVideogame(input))
+        // console.log(input)
+        alert("The videogame was created succesfully");
         setInput({
           name: "",
           image: "",
@@ -105,7 +99,8 @@ export default function Form(){
           genres: [],
           platforms: [],
         }); // Reinicio el formulario
-        alert("The videogame was created succesfully");
+        history.push('/home')
+      }
     }
 }
 
@@ -155,16 +150,20 @@ export default function Form(){
     
 
     return(
-        <div>
-        <NavBar/>
-      <form onSubmit={(e) => handleSubmit(e)} className='form'>
-        <div className='form'>
-          <h2 className='titulo'>Create your own videogame!</h2>
+        <div className={s.mainContainer} key={params.id}>
+           <NavBar/>
+          <div className={s.subContainer} key={params.id}>
+            <div className={s.firstContainerForm} key={params.id}>
 
-          <div className='grupo'>
-          <label className='label'>Name: </label>
+
+        <div className={s.containerForm} key={params.id}>
+          <h1 className={s.titulo}>Create your own videogame!</h1>
+
+      <form onSubmit={e => handleSubmit(e)} className={s.form}>
+          <div className={s.text} key={params.id}>
+          <label>Name: </label>
             <input
-              className='input'
+              className={s.thisInput}
               type="text"
               required
               name="name"
@@ -172,30 +171,29 @@ export default function Form(){
               onChange={(e) => handleChange(e)}
               /> <span className='barra'></span>
             {errors.name && (
-              <p className='danger'>{errors.name}</p>
+              <p className={s.danger}>{errors.name}</p>
             )}
           </div>
 
-
-          <div className='grupo'>
-          <label className='label'>Image URL: </label>
-            <input
-            className='input'
+          <div key={params.id}>
+          <label>Description: </label>
+            <textarea
+              className={s.textArea}
+              required
               type="text"
-              name="image"
-              value={input.image}
+              name="description"
+              value={input.description}
               onChange={(e) => handleChange(e)}
-              /> <span className='barra'></span>
-            {errors.image && (
-              <p className='danger'>{errors.image}</p>
+              > </textarea>
+            {errors.description && (
+              <p className={s.danger}>{errors.description}</p>
             )}
           </div>
 
-
-          <div className='grupo'>
-          <label className='label'>Released date: </label>
+          <div key={params.id}>
+          <label>Released date: </label>
             <input
-            className='input'
+              className={s.thisInput}
               required
               type='date'
               name="released"
@@ -206,13 +204,13 @@ export default function Form(){
             {errors.released && (
               <p className='danger'>{errors.released}</p>
             )}
-
           </div>
 
-          <div className='grupo'>
-          <label className='label'>Rating: </label>
+
+          <div key={params.id}>
+          <label>Rating: </label>
             <input
-            className='input'
+              className={s.thisInput}
               required
               type="text"
               name="rating"
@@ -220,67 +218,90 @@ export default function Form(){
               onChange={(e) => handleChange(e)}
               /> <span className='barra'></span>
             {errors.rating && (
-              <p className='danger'>{errors.rating}</p>
+              <p className={s.danger}>{errors.rating}</p>
             )}
           </div>
 
 
-          <div className='grupo'>
-          <label className='label'>Genres: </label>
-            <select className='create' id="genres" defaultValue="" onChange={(e) => handleGenres(e)}>
-              <option className='option_create' value='' disabled hidden>Select genres...</option>
-              {allGenres.map((g) => {
-                return (
-                  <option className='option_create' key={g.id} value={g.name}>{g.name}</option>
-                  );
-                })}
-            </select> <span className='barra'></span>
-            {input.genres.map((g) => (
-              <div className='box_opcion'>
-                <div className='opcion_title'>{g}</div>
-                <button className='btn_remove' onClick={() => handleDeleteG(g)} key={g} value={g}><span className='x'>X</span></button>
-              </div>
-        ))}
+          <div key={params.id}>
+          <label>Image URL: </label>
+            <input
+              className={s.thisInput}
+              type="text"
+              name="image"
+              value={input.image}
+              onChange={(e) => handleChange(e)}
+              /> <span className='barra'></span>
+            {errors.image && (
+              <p className={s.danger}>{errors.image}</p>
+            )}
           </div>
 
 
-          <div className='grupo'>
-          <label className='label'>Platforms:  </label>
-              <select className='select_create' id="platforms" defaultValue="" onChange={(e) => handlePlatforms(e)}>
-                  <option className='option_create' value="" disabled hidden>Select platforms...</option>
+          <div key={params.id}>
+          <label>Platforms:  </label>
+              <select className={s.thisInput} id="platforms" defaultValue="" onChange={(e) => handlePlatforms(e)}>
+                  <option value="" disabled hidden>Select platforms...</option>
                   {platforms?.map(p => {
                     return (
-                      <option className='option_create' value={p} key={p}>{p}</option>
+                      <option value={p} key={p}>{p}</option>
                       );
                     })}
-              </select> <span className='barra'></span>
+              </select>
+              </div>
+              <div className={s.selected}>
+
               {input.platforms.map((p) => (
-                <div className='box_opcion'>
-                  <div className='opcion_title'>{p}</div>
-                  <button className='btn_remove' onClick={() => handleDeleteP(p)} key={p} value={p}><span className='x'>X</span></button>
+                <div key={p}>
+                  <p>{p}</p>
+                  <button  
+                  onClick={() => handleDeleteP(p)} 
+                  key={p} 
+                  id={p.id}
+                  value={p}
+                  >
+                    <span>X</span>
+                    </button>
                 </div>
               ))}
           </div>
 
-          <div className='grupo'>
-          <label className='description'>Description: </label>
-            <textarea
-              required
-              type="text"
-              name="description"
-              value={input.description}
-              onChange={(e) => handleChange(e)}
-              > </textarea>
-            {errors.description && (
-              <p className='danger'>{errors.description}</p>
-            )}
+
+          <div key={params.id}>
+          <label>Genres: </label>
+            <select className={s.thisInput} id="genres" defaultValue="" onChange={(e) => handleGenres(e)}>
+              <option value='' disabled hidden>Select genres...</option>
+              {allGenres.map((g) => {
+                return (
+                  <option key={g.id} value={g.name}>{g.name}</option>
+                  );
+                })}
+            </select>
+            </div>
+            <div className={s.selected}>
+            {input.genres.map((g) => (
+              <div key={g}>
+                <p>{g}</p>
+                <button 
+                onClick={() => handleDeleteG(g)} 
+                key={g} 
+                id={g.id}
+                value={g}
+                >
+                  <span>X</span>
+                  </button>
+              </div>
+        ))}
           </div>
-      </div>
-      <div>
-          <button type="submit" className='btn_submit'>CREATE</button>
+
+          
+      <div className={s.formDiv} key={params.id}>
+          <button type="submit" className={s.buttonForm}>CREATE</button>
       </div>
       </form>
-
+      </div>
+    </div>
+    </div>
     </div>
   );
 };

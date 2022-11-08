@@ -10,7 +10,7 @@ export default function Card({ image, name, genres, rating, id }) {
                 <img className={s.image} src={image} width="120" height="60" alt="image not fount" />
                 <div className={s.textDiv}>
                     <h1 className={s.text}>{name}</h1>
-                    <h3 className={s.text}> {genres.join(" | ")}</h3>
+                    <h3 className={s.text}> {genres?.map((e) => (typeof e === "object" ? e.name : e)).join(" | ")}</h3>
                     <h4 className={s.text}>⭐ {rating}</h4>
 
             </div>

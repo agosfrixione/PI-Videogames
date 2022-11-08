@@ -14,7 +14,7 @@ import {
     GET_PLATFORMS
 } from "../Actions/Index"; 
 
-let initialState = {
+const initialState = {
     allVideogames: [],
     selectedVideogames: [],
     videogameDetail: {},
@@ -78,6 +78,7 @@ export default function rootReducer(state= initialState, action){
         case CREATE_VIDEOGAME: {
             return {
                 ...state,
+                allVideogames: [...state.allVideogames, action.payload]
             }
         };
 
