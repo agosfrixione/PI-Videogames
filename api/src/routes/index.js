@@ -37,7 +37,7 @@ router.get('/videogames', async (req, res, next) => {
 router.get('/videogame/:id', async (req, res, next) => {
     const {id} = req.params;
     const vg = await videogame(id);
-
+    
     try {
         res.send(vg)
     }catch(e){
@@ -45,32 +45,35 @@ router.get('/videogame/:id', async (req, res, next) => {
     }
 })
 
-router.post('/create', async (req, res) => {
-    const {name, description, released, rating, platforms, genre} = req.body;
+router.post('/videogames', async (req, res) => {
+    const {name, description, released, rating, platforms, genres} = req.body;
     let {image} = req.body;
+
+    console.log('lo que llega por body', name, description, released, rating, platforms, genres)
 
     if (!name || !description || !platforms) {
         return res.status(400).json({msg: "Missing information"})
     }
-    if(typeof name !== "string" || typeof description !== "string" || typeof released !== "string" || typeof rating !== "number" || typeof platforms !== "string"){
+    if(typeof name !== "string" || typeof description !== "string" || typeof released !== "string" || isNaN(rating)){
         return res.status(400).json({msg: "Some of the data was not entered correctly"})
     }
     try {
         if (image === '' || !image) {
-            image = 'file:///Users/agosfrixione/Desktop/Henry/PI-Videogames-main/24509700.jpg'
+            image = 'https://media.istockphoto.com/id/1171662830/vector/neon-gamepad-glowing-gamepad-sign-on-black-background-colorful-and-bright-gaming-joystick.jpg?s=612x612&w=0&k=20&c=pvoM4u7nGo_85M1JHrgb5Pj-AlnZh9ixVDtyVsRt990='
         } 
         const newVideogame = await Videogame.create({ name, description , released, rating, platforms, image })
         let genr = await Genres.findAll({
-            where: { name: genre }})
+            where: { name: genres }})
         
         await newVideogame.addGenre(genr);
         res.status(200).send('Videogame created successfully');
+        // console.log(newVideogame)
     }catch(e){
         console.log(e)
     }
 })
 
-router.get('/genres', async (req, res) => {
+router.get('/genres', async (req, res, next) => {
     try {
         const respuesta = await axios.get(`https://api.rawg.io/api/genres?key=${APIKEY}`)
         const genresApi = await respuesta.data.results.map(g => g.name)

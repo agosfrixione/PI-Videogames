@@ -104,7 +104,7 @@ const idApi = async (id) => {
 //A mi DB
 const idDb = async (id) => {
     try {
-    return await Videogame.findByPk(id, {
+    const rtaDb = await Videogame.findByPk(id, {
         include: [{
             model: Genres, 
             atributes: ['name'], 
@@ -113,15 +113,31 @@ const idDb = async (id) => {
             }
         }]
        })
+       if(rtaDb) {
+        const info = {
+            id: rtaDb.dataValues.id,
+            name: rtaDb.dataValues.name,
+            image: rtaDb.dataValues.image,
+            genres: rtaDb.dataValues.genres.map(g => g.name),
+            description: rtaDb.dataValues.description,
+            released: rtaDb.dataValues.released,
+            rating: rtaDb.dataValues.rating,
+            platforms: rtaDb.dataValues.platforms
+
+        }
+        return info
+    } else {
+        return("No hay un videojuego con ese id")
+    }
     } catch(e) {
         console.error(e)
     }
 }
 
-//Uno mis dos peticiones
+//UNO MIS DOS SOLICITUDES
 const videogame = async (id) => {
     const dbID = id.includes("-")
-    if(dbID) { //si mi id contiene un signo "-" (viene de la db)
+    if(dbID) { //si mi id contiene un signo "-"
         const vgDb = await idDb(id);
         return vgDb     
     } else {
@@ -129,7 +145,6 @@ const videogame = async (id) => {
         return vgApi
    }
 }
-
 
 module.exports = {
     infoTotal,
