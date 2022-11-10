@@ -11,7 +11,8 @@ import {
     ORDER_BY_RATING,
     FILTER_BY_SOURCE,
     FILTER_BY_GENRES,
-    GET_PLATFORMS
+    GET_PLATFORMS,
+    DELETE_VIDEOGAME
 } from "../Actions/Index"; 
 
 const initialState = {
@@ -166,6 +167,17 @@ export default function rootReducer(state= initialState, action){
             return {
                 ...state,
                 platforms: [...action.payload]
+            };
+
+        case DELETE_VIDEOGAME:
+            return {
+                ...state,
+                allVideogames: state.allVideogames.filter(
+                (v) => v.id !== action.payload
+                ),
+                selectedVideogames: state.selectedVideogames.filter(
+                (v) => v.id !== action.payload
+                ),
             };
 
         default: return state;

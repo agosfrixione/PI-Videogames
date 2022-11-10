@@ -12,10 +12,6 @@ export default function Header() {
     const dispatch = useDispatch();
     const allGenres = useSelector((state) => state.allGenres)
 
-    // const genres = [];
-    // allGenres.map(
-    //     a => !genres.includes(a.name) && genres.push(a.name)
-    // );
 
     useEffect(() => { //
         dispatch(getGenres())

@@ -26,7 +26,7 @@
   padding: 15px 15px 30px 28px;
   font-size: 50px;
   font-weight: bold;
-  top: 20%;
+  top: 25%;
   
   outline: none;
   
@@ -71,10 +71,10 @@ text-shadow:
   text-decoration: none;
   outline: none;
   color: #fff;
-  background-color: #B74142;
+  background-color:  rgb(100, 61, 136);;
   border: none;
   border-radius: 15px;
-  box-shadow: 0 9px #BC8B79;
+  box-shadow: 0 6px rgb(217, 176, 255);
   position: absolute;
   display: flex;
   top: 58%;
@@ -82,11 +82,11 @@ text-shadow:
 }
 
 .button:hover {
-  background-color: #b55151
+  background-color: rgba(191, 123, 255, 0.781);
 }
 
 .button:active {
-  background-color: #b55151;
-  box-shadow: 0 5px #BC8B79;
+  background-color: rgba(191, 123, 255, 0.781);
+  box-shadow: 0 5px rgba(191, 123, 255, 0.781);
   transform: translateY(4px);
 }

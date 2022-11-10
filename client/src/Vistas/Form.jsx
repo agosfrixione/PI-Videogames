@@ -9,7 +9,7 @@ import NavBar from '../Vistas/NavBar';
 export default function Form(){
     const params = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
+    const history = useHistory(); // Metodo de router que me redirige a la ruta que yo le diga
 
     const allGenres = useSelector((state) => state.allGenres);
     const platforms = useSelector((state) => state.platforms);
@@ -47,8 +47,7 @@ export default function Form(){
           errors.name = "The name is too long";
         }
 
-        if(!input.image.length || !/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(input.image)
-        ){
+        if(!/^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(input.image)){
           errors.image= "invalid URL, must be an image(png, jpg, gif)";
         };
 
@@ -108,11 +107,11 @@ export default function Form(){
     
       function handleChange(e) {
         e.preventDefault();
-        setInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-        setErrors(validation({
+        setInput((prev) => ({ ...prev, [e.target.name]: e.target.value })); // e.target.name seria el input que se va a estar modificando
+        setErrors(validation({                                              // voy a tomar el valor del input que se modifico y voy a ir llenando el estado
           ...input,
           [e.target.name]: [e.target.value]
-        })
+        })                                  
         )
       }
     

@@ -13,6 +13,7 @@ export const ORDER_BY_RATING = 'ORDER_BY_RATING';
 export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
 export const FILTER_BY_GENRES = "FILTER_BY_GENRES";
 export const GET_PLATFORMS = 'GET_PLATFORMS';
+export const DELETE_VIDEOGAME = 'DELETE_VIDEOGAME'
 
 
 export const getVideogames = () => {
@@ -135,3 +136,17 @@ export function orderByRating(payload) {
         })
     }
   };
+  
+  export const deleteGame = (id) => {
+    return async function (dispatch) {
+        try {
+            const response = await axios.delete(`/videogame/${id}`);
+            
+            dispatch({ type: DELETE_VIDEOGAME, payload: id });
+            return response.data.message;
+          } catch (error) {
+            console.log(error);
+            throw Error(error.response.data.message);
+          }
+        };
+      };
