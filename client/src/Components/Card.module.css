@@ -3,7 +3,7 @@
   --glow-spread-color: rgba(191, 123, 255, 0.568);
   --enhanced-glow-color: rgba(231, 206, 255, 0.651);
   --btn-color: rgb(100, 61, 136);
-    height: 370px;
+    height: 380px;
     width: 370px;
     text-align: center;
     margin: 20px ;
@@ -58,3 +58,38 @@
     object-fit: cover;
     height: 200px;
     }
+
+    .deleteButton {
+      --glow-color: rgb(207, 187, 209);
+      --glow-spread-color: rgba(191, 123, 255, 0.568);
+      --enhanced-glow-color: rgba(231, 206, 255, 0.651);
+      --btn-color: rgb(100, 61, 136);
+      border: .15em solid var(--glow-color);
+      border-radius: 10px;
+      padding: 0.5em 1em;
+      color: var(--glow-color);
+      font-size: 12px;
+      font-weight: bold;
+      background-color: var(--btn-color);
+      outline: none;
+      box-shadow: 0 0 1em .25em var(--glow-color),
+         0 0 4em 1em var(--glow-spread-color),
+         inset 0 0 .75em .25em var(--glow-color);
+      text-shadow: 0 0 .5em var(--glow-color);
+      transition: all 0.3s;
+      position: relative;
+      transition: all 0.3s;
+      margin-left: 320px;
+      text-decoration: none;
+      
+      }
+      
+      .deleteButton:hover {
+       transform: translate(-0.05em, -0.05em);
+       box-shadow: 0.15em 0.15em;
+      }
+      
+      .deleteButton:active {
+       transform: translate(0.05em, 0.05em);
+       box-shadow: 0.05em 0.05em;
+      }

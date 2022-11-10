@@ -140,8 +140,7 @@ export function orderByRating(payload) {
   export const deleteGame = (id) => {
     return async function (dispatch) {
         try {
-            const response = await axios.delete(`/videogame/${id}`);
-            
+            const response = await axios.delete(`http://localhost:3001/videogame/${id}`);
             dispatch({ type: DELETE_VIDEOGAME, payload: id });
             return response.data.message;
           } catch (error) {
