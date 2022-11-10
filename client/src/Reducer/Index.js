@@ -87,6 +87,8 @@ export default function rootReducer(state= initialState, action){
             let sortedVideogames = [];
             if (action.payload === 'A-Z') {
                 sortedVideogames = [...state.selectedVideogames].sort((a, b) => a.name.localeCompare(b.name))
+                // a = 1, b = 2, c = 3, etc.
+                // localcompare permite comprarar dos cadenas teniendo en cuenta acentos y demas.
             }
             if (action.payload === 'Z-A') {
                 sortedVideogames = [...state.selectedVideogames].sort((a, b) => b.name.localeCompare(a.name));
@@ -101,6 +103,7 @@ export default function rootReducer(state= initialState, action){
             let sortedVideogames = [];
             if (action.payload === 'ASC') {
                 sortedVideogames = [...state.selectedVideogames].sort((a, b) => a.rating - b.rating)
+                // Sort compara los valores, si el resultado es -, a se ordena antes que b. Si el resultado es +, b se ordena antes que a.
             }
             if (action.payload === 'DESC') {
                 sortedVideogames = [...state.selectedVideogames].sort((a, b) => b.rating - a.rating);
@@ -120,9 +123,9 @@ export default function rootReducer(state= initialState, action){
                 : allVideogames.filter(v => v.genres?.includes(state.genre));
 
             if (action.payload === 'Db') {
-                filteredVideogames = filteredByGenre.filter(v => isNaN(v.id))
+                filteredVideogames = filteredByGenre.filter(v => isNaN(v.id)) // la condición es que el id NO sea un número ya que en la db tenemos UUID que es un strig (tiene guiones)
             }else if (action.payload === 'Api') {
-                filteredVideogames = filteredByGenre.filter(v => typeof(v.id) === 'number')
+                filteredVideogames = filteredByGenre.filter(v => !isNaN(v.id))
             }else {
                 filteredVideogames = filteredByGenre
             }
@@ -139,9 +142,9 @@ export default function rootReducer(state= initialState, action){
             let filteredBySource = []; 
 
             if (state.source === 'Db') {
-                filteredBySource = allVideogames.filter(v => isNaN(v.id))
+                filteredBySource = allVideogames.filter(v => isNaN(v.id)) // la condición es que el id NO sea un número ya que en la db tenemos UUID que es un strig (tiene guiones)
             }else if (state.source === 'Api') {
-                filteredBySource = allVideogames.filter(v => typeof(v.id) === 'number')
+                filteredBySource = allVideogames.filter(v => !isNaN(v.id))
             }else {
                 filteredBySource = allVideogames
             }

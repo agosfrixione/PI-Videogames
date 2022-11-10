@@ -44,21 +44,7 @@ export default function Home() {
       <div className={s.filterBar}>
       <Header className={s.detailButton} />
       </div>
-
-        <div className={s.cards}>
-                  {
-          selectedVideogames.length? (
-              <div >
-              <Cards allVideogames={currentGames} />
-              </div>
-          ) :
-           <div className={s.notFound}>
-            <h2>No videogames found</h2>
-           </div>
-        } 
-            </div>
-
-          <div>
+      <div>
             <Paginate
                    gamesPerPage={gamesPerPage}
                    allGames={selectedVideogames.length}
@@ -67,6 +53,18 @@ export default function Home() {
                    currentGames={currentGames}
             />
         </div>
+        <div className={s.cards}>
+                  {
+          selectedVideogames.length? (
+              <div >
+              <Cards actualVideogames={currentGames} />
+              </div>
+          ) :
+           <div className={s.notFound}>
+            <h2>No videogames found</h2>
+           </div>
+        } 
+            </div>
     </div>
     ); 
 };

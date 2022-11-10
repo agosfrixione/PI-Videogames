@@ -1,13 +1,14 @@
-import React from 'react';
+import React from "react";
 import Card from './Card.jsx';
 import s from './Cards.module.css';
 import { useParams } from 'react-router-dom';
 
-export default function Cards({ allVideogames }) {
+export default function Cards({ actualVideogames }) {
     const params = useParams();
+
         return (
             <div className={s.cards} key={params.id}>
-                {allVideogames.length && allVideogames.map(v =>
+                {actualVideogames.length && actualVideogames.map(v =>
                     <Card
                         key={v.id}
                         id={v.id}
