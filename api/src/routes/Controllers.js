@@ -144,12 +144,30 @@ const videogame = async (id) => {
         const vgApi = await idApi(id);
         return vgApi
    }
-}
+};
+
+
+// DELETE
+const deleteVideogame = async function (id) {
+    try {
+      const videogame = await Videogame.findOne({
+        where: { id: id },
+      });
+      if (!videogame) {
+        return null;
+      }
+      await videogame.destroy();
+      return videogame;
+    } catch (error) {
+      console.log (error);
+    }
+  };
 
 module.exports = {
     infoTotal,
     videogame,
     infoApi,
     infoDB,
-    nameApi
+    nameApi,
+    deleteVideogame
 }

@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
     id: {
       type: DataTypes.UUID, // Genera id random con letras y numeros
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true, // Columna que identifica de forma exclusiva la fila de la tabla
       defaultValue: DataTypes.UUIDV4,
     },
     name: {

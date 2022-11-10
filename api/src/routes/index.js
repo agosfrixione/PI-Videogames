@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
-const {infoTotal, infoApi, infoDB, nameApi, videogame} = require('./Controllers')
+const {infoTotal, infoApi, infoDB, nameApi, videogame, deleteVideogame} = require('./Controllers')
 const { Videogame, Genres } = require('../db.js');
 const { APIKEY } = process.env;
 // Importar todos los routers;
@@ -49,8 +49,6 @@ router.post('/videogames', async (req, res) => {
     const {name, description, released, rating, platforms, genres} = req.body;
     let {image} = req.body;
 
-    console.log('lo que llega por body', name, description, released, rating, platforms, genres)
-
     if (!name || !description || !platforms) {
         return res.status(400).json({msg: "Missing information"})
     }
@@ -59,7 +57,7 @@ router.post('/videogames', async (req, res) => {
     }
     try {
         if (image === '' || !image) {
-            image = 'https://media.istockphoto.com/id/1171662830/vector/neon-gamepad-glowing-gamepad-sign-on-black-background-colorful-and-bright-gaming-joystick.jpg?s=612x612&w=0&k=20&c=pvoM4u7nGo_85M1JHrgb5Pj-AlnZh9ixVDtyVsRt990='
+            image = 'https://images.complex.com/complex/images/c_fill,dpr_auto,f_auto,q_auto,w_1400/fl_lossy,pg_1/vy4irqhlnzay3yeybfc0/best-sports-video-games?fimg-ssr-default'
         } 
         const newVideogame = await Videogame.create({ name, description , released, rating, platforms, image })
         let genr = await Genres.findAll({
@@ -108,6 +106,25 @@ router.get('/platforms', async (req, res, next) => {
             next(e)
         }
     })
+
+
+router.delete('/videogame/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log(id)
+    const deleted = await deleteVideogame(id)
+      .then((result) => {
+        return result;
+      })
+      .catch((error) => {
+        return error;
+      });
+    if (deleted === null) {
+      return res
+        .status(404)
+        .json({ message: 'The videogame could not be deleted' });
+    }
+    res.status(200).json({ message: 'The videogame was succesfully deleted' });
+});
 
 
 module.exports = router;
