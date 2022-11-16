@@ -144,7 +144,7 @@ export default function rootReducer(state= initialState, action){
             if (state.source === 'Db') {
                 filteredBySource = allVideogames.filter(v => isNaN(v.id)) // la condición es que el id NO sea un número ya que en la db tenemos UUID que es un strig (tiene guiones)
             }else if (state.source === 'Api') {
-                filteredBySource = allVideogames.filter(v => !isNaN(v.id))
+                filteredBySource = allVideogames.filter(v => typeof (v.id) === 'number')
             }else {
                 filteredBySource = allVideogames
             }
