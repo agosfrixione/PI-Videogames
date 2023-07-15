@@ -4,8 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { store } from './Store/Index'
+import { store } from './Store/Index';
 import { BrowserRouter } from 'react-router-dom';
+import axios from 'axios';
+
+// axios.defaults.baseURL = 'http://localhost:3001'
+axios.defaults.baseURL = 'https://pi-videogames-production-733c.up.railway.app'
 
 ReactDOM.render(
   <React.StrictMode>

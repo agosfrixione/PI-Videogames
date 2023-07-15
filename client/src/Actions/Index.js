@@ -19,7 +19,7 @@ export const DELETE_VIDEOGAME = 'DELETE_VIDEOGAME'
 export const getVideogames = () => {
     return async (dispatch) => {
       try {
-        let response = await axios.get("http://localhost:3001/videogames");
+        let response = await axios.get("/videogames");
         dispatch({
           type: GET_VIDEOGAMES,
           payload: response.data,
@@ -52,7 +52,7 @@ export function resetVideogames() { // Para limpiar la busqueda
 
 export function getDetail(id) {
     return function (dispatch) {
-        axios.get(`http://localhost:3001/videogame/${id}`)
+        axios.get(`/videogame/${id}`)
             .then(response => response.data)
             .then(response => {
                 dispatch({ type: GET_DETAIL, payload: response })
@@ -73,7 +73,7 @@ export function resetDetail() {
 
 export function getGenres() {
     return function (dispatch) {
-        axios.get(`http://localhost:3001/genres`)
+        axios.get(`/genres`)
             .then(response => response.data)
             .then(response => {
                 dispatch({ type: GET_GENRES, payload: response })
@@ -86,7 +86,7 @@ export function createVideogame(data) {
     return async (dispatch) => {
         // console.log(data)
         try {
-            await axios.post(`http://localhost:3001/videogames`, data)
+            await axios.post(`/videogames`, data)
             await dispatch({ type: CREATE_VIDEOGAME, payload: data });
         }catch(error) {
                 console.log(error);
@@ -128,7 +128,7 @@ export function orderByRating(payload) {
 
   export const getPlatforms = () => {
     return async (dispatch) => {
-        const url = await axios.get('http://localhost:3001/platforms')
+        const url = await axios.get('/platforms')
         //console.log(url)
         return dispatch({
             type: 'GET_PLATFORMS',
@@ -140,7 +140,7 @@ export function orderByRating(payload) {
   export const deleteGame = (id) => {
     return async function (dispatch) {
         try {
-            const response = await axios.delete(`http://localhost:3001/videogame/${id}`);
+            const response = await axios.delete(`/videogame/${id}`);
             dispatch({ type: DELETE_VIDEOGAME, payload: id });
             return response.data.message;
           } catch (error) {
