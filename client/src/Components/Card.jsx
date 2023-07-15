@@ -28,7 +28,7 @@ export default function Card({ image, name, genres, rating, id }) {
                   <span>X</span>
                   </button>
             <Link className={s.imageDiv} to={`/videogame/${id}`}>
-                <img className={s.image} src={image} width="120" height="60" alt="image not fount" />
+                <img className={s.image} src={image} width="120" height="60" alt="not fount" />
                 <div className={s.textDiv}>
                     <h2 className={s.text}>{name}</h2>
                     <h3 className={s.text}> {genres?.map((e) => (typeof e === "object" ? e.name : e)).join(" | ")}</h3>

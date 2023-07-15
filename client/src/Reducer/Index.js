@@ -31,13 +31,12 @@ export default function rootReducer(state= initialState, action){
 
     switch (action.type) {
         
-        case GET_VIDEOGAMES: {
+        case GET_VIDEOGAMES:
             return {
                 ...state,
                 allVideogames: action.payload,
                 selectedVideogames: action.payload
-            }
-        };
+            };
 
         case GET_BY_NAME: {
             const filteredVideogames = allVideogames.filter(c => c.name.toLowerCase().includes(action.payload.toLowerCase()))
@@ -48,40 +47,35 @@ export default function rootReducer(state= initialState, action){
             }
         };
 
-        case RESET_VIDEOGAMES: {
+        case RESET_VIDEOGAMES: 
             return {
                 ...state,
                 selectedVideogames: state.allVideogames
-            }
-        };
+            };
 
-        case GET_DETAIL: {
+        case GET_DETAIL: 
             return {
                 ...state,
                 videogameDetail: action.payload,
-            }
-        };
+            };
 
-        case RESET_DETAIL: {
+        case RESET_DETAIL: 
             return {
                 ...state,
                 videogameDetail: initialState.videogameDetail
-            }
-        };
+            };
 
-        case GET_GENRES: {
+        case GET_GENRES: 
             return {
                 ...state,
                 allGenres: action.payload,
-            }
-        };
+            };
 
-        case CREATE_VIDEOGAME: {
+        case CREATE_VIDEOGAME: 
             return {
                 ...state,
                 allVideogames: [...state.allVideogames, action.payload]
-            }
-        };
+            };
 
         case ORDER_BY_NAME: {
             let sortedVideogames = [];
